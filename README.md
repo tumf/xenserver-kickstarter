@@ -15,10 +15,9 @@ xe vm-start uuid=$UUID
 Use this commands to install xenserver-kickstart to your vm template
 
 ```sh
-wget https://github.com/tumf/xenserver-kickstarter/tarball/master/ks.tar.gz
-tar xvzf ks.tar.gz
-cd 
-bash install-rhl.sh
+wget https://github.com/tumf/xenserver-kickstarter/archive/v1.0.tar.gz -O - |tar xz
+cd xenserver-kickstarter-1.0
+[sudo] ./install-rhl.sh
 ```
 
 ## Finalize VM template
