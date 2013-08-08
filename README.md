@@ -1,2 +1,28 @@
-xenserver-kickstarter
-=====================
+# xenserver-kickstarter
+
+Kickstart your guest vm up on provisioning
+
+## Usage
+
+```sh
+UUID=`xe vm-install template=mytemplate  new-name-label=newvm`
+xe vm-param-set uuid=$UUID xenstore-data:vm-data/ks=http://....
+xe vm-start uuid=$UUID
+```
+
+## Install
+
+Use this commands to install xenserver-kickstart to your vm template
+
+```sh
+wget https://github.com/tumf/xenserver-kickstarter/tarball/master/ks.tar.gz
+tar xvzf ks.tar.gz
+cd 
+bash install-rhl.sh
+```
+
+## Finalize VM template
+
+```
+[sudo] /sbin/service/kickstart finalize
+```

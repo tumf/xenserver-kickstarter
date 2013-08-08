@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# kickstart
+# 
+# chkconfig: 2345 99 99
+# description: VM Kickstart from URL
+
+function kickstart(){
+    CURL=`which curl`
+    XENSTOREREAD=`which xenstore-read`
+
+    [ -x $XENSTOREREAD ] || exit 255
+    [ -x $CURL ] || exit 255
+
+    KICKSTART_URL=`$XENSTOREREAD vm-data/ks`
+    [ "$KICKSTART_URL" = "" ] && exit 0
+    $CURL -k $KICKSTART_URL 2>/dev/null|bash
+}
+
+
+function finalize(){
+    /sbin/chkconfig kickstart on
+    rm -rf /tmp ;mkdir /tmp;chmod 777 /tmp;chmod +t /tmp
+    find /var/log -type f -exec rm {} \;
+    history -c
+    rm /root/.bash_history
+    /sbin/shutdown -h now
+}
+
+case "$1" in
+    start)
+        kickstart
+        chkconfig kickstart off
+        ;;
+    finalize)
+        finalize
+        ;;
+    stop|status|restart|reload|force-reload)
+        # do nothing
+        ;;
+esac
