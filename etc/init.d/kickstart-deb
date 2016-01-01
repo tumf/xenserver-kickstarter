@@ -24,6 +24,7 @@ function finalize(){
     find /var/log -type f -exec rm {} \;
     history -c
     rm /root/.bash_history
+    find /home -name ".bash_history" -exec rm {} \;
     /sbin/shutdown -h now
 }
 
